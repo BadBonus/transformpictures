@@ -21,10 +21,18 @@
 	<body>
 		<div id="container"></div>
 
-		<script src="js/three.js"></script>
-		<script src="js/tweenmax.js"></script>
-		<script src="js/OrbitControls.js"></script>
-		
+		<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.min.js"
+		integrity="sha512-jeYvJdyAYkpQCY/omvCYQo89qA5YxDW4JBT7COPsHT2sOAanwxkZRFeP9gc69b5reSDpZIoyCqZQZcWZkbB5Gw=="
+		crossorigin="anonymous"
+	  ></script>
+	  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"
+      integrity="sha512-1dalHDkG9EtcOmCnoCjiwQ/HEB5SDNqw8d4G2MKoNwjiwMNeBAkudsBCmSlMnXdsH8Bm0mOd3tl/6nL5y0bMaQ=="
+      crossorigin="anonymous"
+    ></script>
+		<script src="js/orbitalcontrols.js"></script>
+
 		<script>
 			let size = 50;
 			let canvas = document.createElement('canvas');
@@ -35,7 +43,7 @@
 			document.body.appendChild(canvas);
 
 
-			
+
 
 			function loadImages(paths,whenLoaded){
 			  var imgs=[];
@@ -98,7 +106,7 @@
 
 				var camera, controls, scene, renderer,geometry;
 
-				
+
 				function init() {
 
 					scene = new THREE.Scene();
@@ -118,7 +126,7 @@
 					controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 
-					
+
 
 
 
@@ -132,7 +140,7 @@
 					  map: texture,
 					  alphaTest: 0.5
 					});
-					
+
 					geometry = new THREE.Geometry();
 					var x, y, z;
 
@@ -142,7 +150,7 @@
 					//   x = Math.sin(i/10)*100;
 					//   y = Math.cos(i/10)*100;
 					//   z = i;
-					  
+
 					//   geometry.vertices.push(new THREE.Vector3(x, y, z));
 					//   geometry.colors.push(new THREE.Color(Math.random(), Math.random(), Math.random()));
 					// };
@@ -151,7 +159,7 @@
 						geometry.vertices.push(new THREE.Vector3(el[0], el[1], Math.random()*100));
 						geometry.colors.push(new THREE.Color(Math.random(), Math.random(), Math.random()));
 					});
-					
+
 					var pointCloud = new THREE.PointCloud(geometry, material);
 					scene.add(pointCloud);
 					// Конец сцены
@@ -166,7 +174,7 @@
 					renderer.setSize( window.innerWidth, window.innerHeight );
 				}
 
-				
+
 
 
 				var i = 0;
@@ -183,14 +191,14 @@
 					  particle.add(new THREE.Vector3(dX, dY, dZ));
 					});
 					geometry.verticesNeedUpdate = true;
-					
+
 
 					render();
 
 				}
 
-				
-				
+
+
 
 				function render() {
 					renderer.render( scene, camera );
@@ -219,23 +227,23 @@
 
 
 
-		
-			    
-
-			      
-
-			
-
-
-
-
-			
 
 
 
 
 
-		
+
+
+
+
+
+
+
+
+
+
+
+
 
 		</script>
 
