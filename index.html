@@ -33,13 +33,9 @@
     <script src="js/OrbitControls.js"></script>
 
     <script>
-      let size = 50;
+      let size = 110;
       let canvas = document.createElement("canvas");
       let ctx = canvas.getContext("2d");
-      canvas.width = size;
-      canvas.height = size;
-      canvas.classList.add("tempcanvas");
-      document.body.appendChild(canvas);
 
       function loadImages(paths, whenLoaded) {
         var imgs = [];
@@ -52,7 +48,6 @@
           img.src = path;
         });
       }
-
 
       function fillUp(array, max) {
         var length = array.length;
@@ -71,6 +66,7 @@
       }
       function getArrayFromImage(img) {
         let imageCoords = [];
+        imageCoords.color = [];
         ctx.clearRect(0, 0, size, size);
         ctx.drawImage(img, 0, 0, size, size);
         let data = ctx.getImageData(0, 0, size, size);
@@ -83,22 +79,22 @@
             var green = data[(size * y + x) * 4 + 1];
             var blue = data[(size * y + x) * 4 + 2];
             var alpha = data[(size * y + x) * 4 + 3];
-            //Цвет находится здеся
+
             if (alpha > 0) {
               imageCoords.push([10 * (x - size / 2), 10 * (size / 2 - y)]);
+              imageCoords.color.push(red, green, blue);
             }
           }
         }
-        return fillUp(imageCoords, 10000);
+        return fillUp(imageCoords, 25000);
       }
 
-      let images = ["img/close.svg", "img/s21svg.svg"];
+      let images = ["img/money.png", "img/kaxa.png"];
       loadImages(images, function (loadedImages) {
         var gallery = [];
         loadedImages.forEach(function (el, index) {
           gallery.push(getArrayFromImage(loadedImages[index]));
         });
-
         var camera, controls, scene, renderer, geometry;
 
         function init() {
@@ -127,9 +123,9 @@
           // ЧТО ЕСТЬ НА СЦЕНЕ
           var texture = new THREE.TextureLoader().load("img/particle.png");
           var material = new THREE.PointCloudMaterial({
-            size: 10,
+            size: 7,
             vertexColors: THREE.VertexColors,
-            map: texture,
+
             alphaTest: 0.5,
           });
 
@@ -147,7 +143,7 @@
           // };
 
           gallery[0].forEach((el, index) => {
-            z = (Math.sin(Math.random() * 100) * 50);
+            z = Math.sin(Math.random() * 100) * 50;
             geometry.vertices.push(new THREE.Vector3(el[0], el[1], z * 1));
 
             let correctColor = +((z + 10) / 20).toFixed(2);
@@ -194,30 +190,7 @@
         animate();
 
         var current = 0;
-        // document.body.addEventListener("click", function () {
-        //   current++;
-        //   current = current % gallery.length;
-        //   geometry.vertices.forEach(function (particle, index) {
-        //     let tl = new TimelineMax();
-        //     tl.to(particle, 1, {
-        //       x: gallery[current][index][0],
-        //       y: gallery[current][index][1],
-        //     });
-        //   });
-
-        //   geometry.colors.forEach((particle, index) => {
-        //     let tl = new TimelineMax();
-        //     z = (1.0 - particle.b).toFixed(2);
-        //     // let correctColor = (z + 10) / 20;
-        //     const rnd = Math.random();
-        //     tl.to(particle, 1, {
-        //       b: z,
-        //     });
-        //   });
-        //   console.log(geometry.colors[0]);
-        // });
-
-        setInterval(function () {
+        document.body.addEventListener("click", function () {
           current++;
           current = current % gallery.length;
           geometry.vertices.forEach(function (particle, index) {
@@ -227,7 +200,30 @@
               y: gallery[current][index][1],
             });
           });
-        }, 1500);
+
+          geometry.colors.forEach((particle, index) => {
+            let tl = new TimelineMax();
+            z = (1.0 - particle.b).toFixed(2);
+            // let correctColor = (z + 10) / 20;
+            const rnd = Math.random();
+            tl.to(particle, 1, {
+              b: z,
+            });
+          });
+          console.log(geometry.colors[0]);
+        });
+
+        // setInterval(function () {
+        //   current++;
+        //   current = current % gallery.length;
+        //   geometry.vertices.forEach(function (particle, index) {
+        //     let tl = new TimelineMax();
+        //     tl.to(particle, 1, {
+        //       x: gallery[current][index][0],
+        //       y: gallery[current][index][1],
+        //     });
+        //   });
+        // }, 1500);
       });
     </script>
   </body>
