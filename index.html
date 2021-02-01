@@ -31,8 +31,15 @@
     <script src="js/three.js"></script>
     <script src="js/tweenmax.js"></script>
     <script src="js/OrbitControls.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"
+      integrity="sha512-LF8ZB1iTwi4Qvkm4pekHG4a437Y9Af5ZuwbnW4GTbAWQeR2E4KW8WF+xH8b9psevV7wIlDMx1MH9YfPqgKhA/Q=="
+      crossorigin="anonymous"
+    ></script>
 
     <script>
+      // var gui = new dat.GUI();
+
       let size = 110;
       let canvas = document.createElement("canvas");
       let ctx = canvas.getContext("2d");
@@ -81,6 +88,7 @@
             var alpha = data[(size * y + x) * 4 + 3];
 
             if (alpha > 0) {
+              //Плотность пикселей здесь можно настроить
               imageCoords.push([10 * (x - size / 2), 10 * (size / 2 - y)]);
               imageCoords.color.push(red, green, blue);
             }
@@ -89,7 +97,7 @@
         return fillUp(imageCoords, 25000);
       }
 
-      let images = ["img/money.png", "img/kaxa.png"];
+      let images = ["img/kaxa.png","img/money.png"];
       loadImages(images, function (loadedImages) {
         var gallery = [];
         loadedImages.forEach(function (el, index) {
@@ -147,7 +155,13 @@
             geometry.vertices.push(new THREE.Vector3(el[0], el[1], z * 1));
 
             let correctColor = +((z + 10) / 20).toFixed(2);
-            geometry.colors.push(new THREE.Color(0, 0, correctColor));
+            geometry.colors.push(
+              new THREE.Color(
+                gallery[0].color[index + 1],
+                gallery[0].color[index + 2],
+                gallery[0].color[index + 3],
+              )
+            );
           });
 
           var pointCloud = new THREE.PointCloud(geometry, material);
